@@ -1,7 +1,9 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SearchInputComponent } from './components/search-input/search-input.component';
 import { ListComponent } from './components/list/list.component';
 import { CountryService } from '../../services/country.service';
+import { firstValueFrom } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -9,19 +11,47 @@ import { CountryService } from '../../services/country.service';
   templateUrl: './by-capital-page.component.html',
   styleUrl: './by-capital-page.component.css',
 })
-export class ByCapitalPageComponent implements OnInit {
+export class ByCapitalPageComponent {
   countryService = inject(CountryService);
+  query = signal('');
 
-  ngOnInit() {}
+  countryResourse = rxResource({
+    request: () => ({ query: this.query() }),
+    loader: ({ request }) => {
+      //  if (!request.query) return [];
+      return this.countryService.searchByCapital(request.query);
+    },
+  });
 
-  onSearch(query: string) {
-    this.countryService.searchByCapital(query).subscribe({
-      next: (countries) => {
-        console.log({ countries });
-      },
-      error: (error) => {
-        console.error('Error al buscar países por capital:', error);
-      },
-    });
-  }
+  // countryResourse = resource({
+  //   request: () => ({ query: this.query() }),
+  //   loader: async ({ request }) => {
+  //     if (!request.query) return [];
+  //     return await firstValueFrom(
+  //       this.countryService.searchByCapital(request.query)
+  //     );
+  //   },
+  // });
+
+  // isLoading = signal(false);
+  // isError = signal<string | null>(null);
+  // countries = signal<Country[]>([]);
+  // ngOnInit() {}
+
+  // onSearch(query: string) {
+  //   if (this.isLoading()) return;
+  //   this.isLoading.set(true);
+  //   this.isError.set(null);
+  //   this.countryService.searchByCapital(query).subscribe({
+  //     next: (countries) => {
+  //       this.isLoading.set(false);
+  //       this.countries.set(countries);
+  //     },
+  //     error: (error) => {
+  //       this.isLoading.set(false);
+  //       this.countries.set([]);
+  //       this.isError.set(error);
+  //     },
+  //   });
+  // }
 }

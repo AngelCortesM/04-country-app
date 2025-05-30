@@ -1,2 +1,11 @@
-<app-search-input placeholder="Buscar por capital"></app-search-input>
-<app-list></app-list>
+<app-search-input
+  (searchValue)="query.set($event)"
+  placeholder="Buscar por capital"
+></app-search-input>
+@if(countryResourse.error()){
+<h3 class="mt-5 animate-bounce badge badge-error">
+  {{ countryResourse.error() }}
+</h3>
+}@if (countryResourse.hasValue()) {
+<app-list [countries]="countryResourse.value()!"></app-list>
+}
