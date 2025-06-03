@@ -42,6 +42,16 @@
           >
         </td>
       </tr>
+      } @if(errorMessage()){
+      <tr>
+        <td colspan="8" class="text-center">{{ errorMessage() }}</td>
+      </tr>
+      }
+      <!--  -->
+      @if(countries().length === 0 && !errorMessage()){
+      <tr>
+        <td colspan="8" class="text-center">No se encontraron países</td>
+      </tr>
       }
     </tbody>
   </table>

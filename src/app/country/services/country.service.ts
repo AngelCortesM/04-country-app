@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import type { RESTCountry } from '../interfaces/rest-countries.interface';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, delay, map } from 'rxjs/operators';
 import { CountryMapper } from '../mappers/country.mapper';
 import { Observable, throwError } from 'rxjs';
 import type { Country } from '../interfaces/country.interface';
@@ -33,6 +33,7 @@ export class CountryService {
     query = query.toLowerCase();
     return this.http.get<RESTCountry[]>(url).pipe(
       map((resp) => CountryMapper.mapRestCountryToArrayToCountryArray(resp)),
+      delay(5000), // Simula un retraso de 500 ms
       catchError((error) => {
         console.error(`Error al buscar países por nombre: ${query}`, error);
         return throwError(
