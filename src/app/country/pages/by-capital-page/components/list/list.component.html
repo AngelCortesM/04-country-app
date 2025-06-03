@@ -48,9 +48,16 @@
       </tr>
       }
       <!--  -->
-      @if(countries().length === 0 && !errorMessage()){
+      @if(countries().length === 0 && !isLoading()){
       <tr>
-        <td colspan="8" class="text-center">No se encontraron países</td>
+        <td colspan="8" class="text-center">No se encontraron resultados</td>
+      </tr>
+      }
+
+      <!--  -->
+      @if(isLoading()){
+      <tr>
+        <td colspan="8" class="text-center">Buscando países...</td>
       </tr>
       }
     </tbody>

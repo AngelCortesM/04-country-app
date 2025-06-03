@@ -3,4 +3,8 @@
   placeholder="Buscar por capital"
 ></app-search-input>
 
-<app-list [countries]="countryResourse.value() ?? []"></app-list>
+<app-list
+[errorMessage]="countryResourse.error()"
+[isLoading]="countryResourse.isLoading()"
+[isEmpty]="countryResourse.value()?.length === 0"
+[countries]="countryResourse.value() ?? []"></app-list>

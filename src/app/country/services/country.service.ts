@@ -33,12 +33,27 @@ export class CountryService {
     query = query.toLowerCase();
     return this.http.get<RESTCountry[]>(url).pipe(
       map((resp) => CountryMapper.mapRestCountryToArrayToCountryArray(resp)),
-      delay(5000), // Simula un retraso de 500 ms
+      delay(2000),
       catchError((error) => {
         console.error(`Error al buscar países por nombre: ${query}`, error);
         return throwError(
           () =>
             new Error(`Error con la búsqueda de países por nombre: ${query}`)
+        );
+      })
+    );
+  }
+
+  searchByCountryByAlphaCode(code: string) {
+    const url = `${ApiUrl}/alpha/${code}`;
+
+    return this.http.get<RESTCountry[]>(url).pipe(
+      map((resp) => CountryMapper.mapRestCountryToArrayToCountryArray(resp)),
+      map((countries) => countries.at(0)), // Asumiendo que el código alfa devuelve un solo país
+      catchError((error) => {
+        console.error(`Error al buscar países por nombre: ${code}`, error);
+        return throwError(
+          () => new Error(`Error con la búsqueda de países por código: ${code}`)
         );
       })
     );
