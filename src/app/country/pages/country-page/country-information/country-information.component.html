@@ -1,0 +1,53 @@
+<section class="mx-10 flex flex-col items-center justify-center gap-4 p-4">
+  <h1 class="text-2xl font-bold">{{ country().name }}</h1>
+  <p class="text-lg">Capital: {{ country().capital }}</p>
+  <p class="text-lg">Población: {{ country().population | number }}</p>
+</section>
+
+<div class="stats shadow items-center justify-center w-full">
+  <div class="stat place-items-center">
+    <div class="stat-title">Población</div>
+    <div class="stat-value">{{ country().population | number }}</div>
+    <div class="stat-desc">Desde {{ currentYear() }}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Nombre</div>
+    <div class="stat-value text-secondary">{{ country().name }}</div>
+    <div class="stat-desc text-secondary">{{ country().cca2 }}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Sub Region</div>
+    <div class="stat-value">{{ country().subregion }}</div>
+    <div class="stat-desc">{{ country().region }}</div>
+  </div>
+
+  <div class="stat place-items-center gap-3">
+    <div class="stat-title">bandera</div>
+    <img
+      class="stat-value h-5"
+      [alt]="country().name + ' flag'"
+      [src]="country().flagSvg"
+    />
+    <div class="stat-desc">{{ country().subregion }}</div>
+  </div>
+</div>
+
+<section
+  class="m-10 p-10 container rounded border flex items-center justify-center w-full mx-auto"
+>
+  <figure class="diff aspect-16/9" tabindex="0">
+    <div class="diff-item-1" role="img" tabindex="0">
+      <img [alt]="country().name + ' flag'" [src]="country().flagSvg" />
+    </div>
+    <div class="diff-item-2" role="img">
+      <img
+        class="blur brightness-75"
+        [alt]="country().name + ' flag blurred'"
+        [src]="country().flagSvg"
+      />
+    </div>
+    <div class="diff-resizer"></div>
+  </figure>
+</section>
